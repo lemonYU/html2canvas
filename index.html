@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
+    <script type="text/javascript" src="js/jquery.qrcode.js" ></script>
+    <script type="text/javascript" src="js/utf.js" ></script>
+    <script type="text/javascript" src="js/html2canvas.min.js"></script>
+    <style>
+    *{font-size:0.5rem}
+    #qrcodeCanvas{position: relative;width:200px;height:200px;margin: 0 auto;}
+    .logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+    #htmlDiv p{text-align: center;}
+    h3{color:brown}
+    </style>
+</head>
+<body>
+    <h3>DOM元素：</h3>
+    <div id="htmlDiv">  
+        <div id="qrcodeCanvas">
+            <img  width="50" height="50" src="img/gray.jpg" class='logo'/>  
+        </div>
+        <p>春去秋来，海棠花开。你是否已化作风雨，穿越时光来到这里。</p>
+    </div>
+    <h3>图片： </h3>
+    <img src="" id="img"/>
+
+
+    <script type="text/javascript">
+    window.onload=function(){
+        var htmlDiv = document.getElementById("htmlDiv");
+
+        jQuery('#qrcodeCanvas').qrcode({
+		     	 render    : "canvas",
+		         text    : "http://www.cnblogs.com/imelemon/p/6677956.html",
+		         width : "200",               //二维码的宽度
+                 height : "200",              //二维码的高度
+                 background : "#ffffff",       //二维码的后景色
+                 foreground : "#000000"       //二维码的前景色
+                // ,src: 'img/gray.jpg'             //二维码中间的图片
+			 }); 
+
+        /*
+         * HTML转图片
+         */
+        var canvas = document.createElement("canvas");
+        canvas.width = window.screen.width*1.5 ;
+        canvas.height = window.screen.height*1.5;
+
+        var context = canvas.getContext("2d");
+        //context.scale(2,2);
+
+        html2canvas(htmlDiv, {
+            canvas: canvas,
+            onrendered: function(canvas) {
+                var myImage = canvas.toDataURL("image/png");        
+                document.getElementById("img").setAttribute("src",myImage);
+            }
+        });
+    };
+    </script>
+</body>
+</html>
